@@ -1,22 +1,21 @@
 ---
-title: "Guía gráfica del Willmers' Solver"
+title: "Guía gráfica del LNL-Solver"
 author: "Willmers Isaías Hernández Cornielle"
 course: "Análisis Numérico"
 lang: es
 ---
 
-# LNL-Solver
-This is LNL-Solver a tool to solve Linear and Non-Linear System using iterative standard methods
+# Guía gráfica del LNL-Solver
 
-# Guía gráfica del Willmers' Solver
+**Linear & Non-Linear Solver**
 
-**Cómo importar, usar y entender `LNL-Solver.py`**
+**Cómo importar, usar y entender `LNL_Solver.py`**
 
-El archivo `LNL-Solver.py` funciona como una pequeña librería personal para resolver sistemas lineales y sistemas no lineales desde notebooks de Python.
+**LNL-Solver** significa **Linear & Non-Linear Solver**. En Python se usa mediante el archivo importable `LNL_Solver.py`, que funciona como una pequeña librería personal para resolver sistemas lineales y sistemas no lineales desde notebooks de Python.
 
 ```mermaid
 flowchart LR
-    A["LNL-Solver.py<br/>archivo módulo"] --> B["LinearSystem<br/>sistemas Ax=b"]
+    A["LNL_Solver.py<br/>archivo módulo"] --> B["LinearSystem<br/>sistemas Ax=b"]
     B --> C["NonLinearSystem<br/>sistemas F(x,y)=0"]
     B --> D["show_solution_set<br/>impresión ordenada"]
     C --> D
@@ -37,7 +36,7 @@ flowchart LR
 - [Cómo leer `show_solution_set`](#cómo-leer-show_solution_set)
 - [Diagnóstico rápido de errores](#diagnóstico-rápido-de-errores)
 - [Recetas de uso](#recetas-de-uso)
-- [Ejemplos tomados de la práctica](#ejemplos-tomados-de-la-práctica)
+- [Ejercicio guiado: Solver + `numpy` + `matplotlib`](#ejercicio-guiado-solver--numpy--matplotlib)
 - [Checklist antes de entregar](#checklist-antes-de-entregar)
 
 ---
@@ -46,7 +45,7 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    M["Módulo<br/><code>LNL-Solver.py</code>"]
+    M["Módulo<br/><code>LNL_Solver.py</code>"]
     L["Clase<br/><code>LinearSystem</code><br/>Ax=b"]
     N["Clase<br/><code>NonLinearSystem</code><br/>F(x,y)=0"]
     S["Función<br/><code>show_solution_set</code><br/>salida legible"]
@@ -82,9 +81,9 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    subgraph F["Carpeta de la práctica"]
-        A["Práctica 3 - WH.ipynb"]
-        B["LNL-Solver.py"]
+    subgraph F["Carpeta de trabajo"]
+        A["mi_notebook.ipynb"]
+        B["LNL_Solver.py"]
     end
     A --> C["El import funciona directamente"]
     B --> C
@@ -94,21 +93,21 @@ La celda de importación debe verse así:
 
 ```python
 import numpy as np
-from LNL-Solver import *
+from LNL_Solver import *
 ```
 
-> **Detalle importante.** En Python se importa el nombre del módulo, no el nombre del archivo con extensión.
+> **Detalle importante.** En Python se importa el nombre del módulo, no el nombre del archivo con extensión. Además, aunque el nombre visual es **LNL-Solver**, el módulo usa guion bajo porque Python no permite guiones en nombres importados con `from`.
 
 Correcto:
 
 ```python
-from LNL-Solver import *
+from LNL_Solver import *
 ```
 
 Incorrecto:
 
 ```python
-from LNL-Solver.py import *
+from LNL_Solver.py import *
 ```
 
 ### Si el notebook está en otra carpeta
@@ -116,7 +115,7 @@ from LNL-Solver.py import *
 ```mermaid
 flowchart LR
     A["Notebook en otra carpeta"] --> B["Agregar ruta con sys.path"]
-    B --> C["Importar LNL-Solver"]
+    B --> C["Importar LNL_Solver"]
 ```
 
 ```python
@@ -124,20 +123,20 @@ import sys
 import numpy as np
 
 sys.path.append(
-    r"/Users/sr3m/Library/CloudStorage/OneDrive-Personal/6. Research & Development/2. MSc Pure Mathematics/Análisis Numérico/Clases/0. Tareas/2. Práctica 3"
+    r"/ruta/a/la/carpeta/donde/esta/LNL_Solver"
 )
 
-from LNL-Solver import *
+from LNL_Solver import *
 ```
 
-Si editas `LNL-Solver.py` y el notebook no reconoce los cambios, reinicia el kernel o recarga el módulo:
+Si editas `LNL_Solver.py` y el notebook no reconoce los cambios, reinicia el kernel o recarga el módulo:
 
 ```python
-import LNL-Solver
+import LNL_Solver
 from importlib import reload
 
-reload(LNL-Solver)
-from LNL-Solver import *
+reload(LNL_Solver)
+from LNL_Solver import *
 ```
 
 ---
@@ -160,7 +159,7 @@ flowchart TB
 
 ```python
 import numpy as np
-from LNL-Solver import *
+from LNL_Solver import *
 
 A = np.array([
     [-2, 1, 0, 0],
@@ -299,7 +298,7 @@ system.solved_by_gauss_seidel(
 | Comprobar que \(Ax=b\) se cumple | `residue` | Mide directamente el defecto \(Ax-b\). |
 | Entrega más rigurosa | `combined` | Exige simultáneamente poco cambio y bajo residuo. |
 
-> **Recomendación práctica.** Para reportes, usa `residue` o `combined`. Para estudiar la velocidad del método, usa `absolute_error` y grafica `system.history`. Para una actividad donde se piden cinco iteraciones, usa `max_iteration`.
+> **Recomendación de uso.** Para reportes, usa `residue` o `combined`. Para estudiar la velocidad del método, usa `absolute_error` y grafica `system.history`. Para un ejercicio donde se piden cinco iteraciones, usa `max_iteration`.
 
 ---
 
@@ -462,7 +461,7 @@ $$
 
 ```python
 import numpy as np
-from LNL-Solver import *
+from LNL_Solver import *
 
 functions = [
     lambda x, y: -x**2 + x + 0.75 - y,
@@ -634,8 +633,8 @@ Error = 8.935694e-06 %
 
 | Síntoma | Causa probable | Solución |
 |---|---|---|
-| `ModuleNotFoundError` | El notebook no ve `LNL-Solver.py`. | Coloca el archivo en la misma carpeta o usa `sys.path.append`. |
-| `from LNL-Solver.py import *` falla | Se incluyó la extensión `.py`. | Usa `from LNL-Solver import *`. |
+| `ModuleNotFoundError` | El notebook no ve `LNL_Solver.py`. | Coloca el archivo en la misma carpeta o usa `sys.path.append`. |
+| `from LNL_Solver.py import *` falla | Se incluyó la extensión `.py`. | Usa `from LNL_Solver import *`. |
 | Matriz singular en Newton | Jacobiano no invertible en el punto actual. | Cambia el punto inicial o revisa derivadas. |
 | Gauss-Seidel no converge | La matriz no garantiza convergencia. | Reordena ecuaciones, pivotea o usa otro método. |
 | Cero en diagonal | División por cero en método iterativo. | Reordena filas o reformula el sistema. |
@@ -643,7 +642,7 @@ Error = 8.935694e-06 %
 
 ```mermaid
 flowchart LR
-    A["No<br/>from LNL-Solver.py import *"] --> B["Sí<br/>from LNL-Solver import *"]
+    A["No<br/>from LNL_Solver.py import *"] --> B["Sí<br/>from LNL_Solver import *"]
 ```
 
 ---
@@ -654,7 +653,7 @@ flowchart LR
 
 ```python
 import numpy as np
-from LNL-Solver import *
+from LNL_Solver import *
 
 A = np.array([
     [4, -1, 0],
@@ -707,67 +706,11 @@ plt.show()
 
 ---
 
-## Ejemplos Tomados de la Práctica
+## Ejercicio Guiado: Solver + `numpy` + `matplotlib`
 
-### Ejemplo 1: Gauss-Seidel, reordenamiento e historial
+El objetivo es resolver y visualizar un sistema no lineal completo usando `LNL_Solver.py`. La idea es ver el flujo real de trabajo: importar librerías, definir funciones con `numpy`, resolver con Newton-Raphson, usar el historial y producir gráficas con `matplotlib`.
 
-En la Actividad 5 se resolvió el sistema:
-
-$$
-\begin{aligned}
-x+5y+z&=7,\\
-4x+y+2z&=8,\\
-3x+2y+z&=6.
-\end{aligned}
-$$
-
-El objetivo no era solo obtener la solución, sino observar cómo cambia la convergencia cuando se reordenan las ecuaciones.
-
-```mermaid
-flowchart LR
-    A["Sistema original<br/>no garantiza convergencia"] --> B["Reordenar filas<br/>mejor pivoteo disponible"]
-    B --> C["Usar historial<br/>para graficar error"]
-```
-
-```python
-original_errors = [
-    item['absolute_error']
-    for item in system5_original.history
-]
-
-pivot_errors = [
-    item['absolute_error']
-    for item in system5_pivot.history
-]
-
-plt.semilogy(
-    range(1, len(original_errors) + 1),
-    original_errors,
-    marker='o',
-    label='Sin reordenar'
-)
-
-plt.semilogy(
-    range(1, len(pivot_errors) + 1),
-    pivot_errors,
-    marker='o',
-    label='Reordenado'
-)
-```
-
-| Caso | \(x_1\) | \(x_2\) | \(x_3\) |
-|---|---:|---:|---:|
-| Sin reordenar, 20 iter. | \(1.449650\times10^{24}\) | \(-6.891680\times10^{24}\) | \(9.434409\times10^{24}\) |
-| Reordenado, 20 iter. | 0.749997 | 0.833330 | 2.083341 |
-| Método directo | 0.750000 | 0.833333 | 2.083333 |
-
-![Actividad 5: error absoluto en Gauss-Seidel](figures_practica_3/cell_16_output_01.png)
-
-> **Qué enseña este ejemplo.** El historial no es adorno: permite detectar divergencia. En el caso original el error explota; en el caso reordenado el error cae hasta aproximadamente \(1.542573\times10^{-5}\). Por eso `history` es la herramienta natural para justificar convergencia en el reporte.
-
-### Ejemplo 2: Newton-Raphson con varios puntos iniciales
-
-En la Actividad 8 se resolvió:
+Usaremos el sistema:
 
 $$
 x^2+y^2=4,
@@ -775,73 +718,220 @@ x^2+y^2=4,
 x^2-y=1.
 $$
 
-La gráfica permite ver que Newton-Raphson puede converger a raíces distintas dependiendo del punto inicial.
-
-| Punto inicial | Resultado | Iter. | Lectura |
-|---|---|---:|---|
-| `[1,1]` | `(1.517490, 1.302776)` | 5 | raíz derecha |
-| `[0,2]` | Jacobiano singular | -- | no converge |
-| `[-1,1]` | `(-1.517490, 1.302776)` | 5 | raíz izquierda |
-| `[2,0]` | `(1.517490, 1.302776)` | 6 | raíz derecha |
-| `[-0.2,0.2]` | `(-1.517490, 1.302776)` | 8 | raíz izquierda |
-| `[0.5,0.5]` | `(1.517490, 1.302776)` | 6 | raíz derecha |
-
-![Actividad 8: curvas, puntos iniciales y raíces](figures_practica_3/cell_23_output_01.png)
-
-> **Interpretación.** Newton-Raphson no elige una raíz global. Parte de un punto, evalúa \(F\) y \(J\), y avanza localmente. Si el Jacobiano es singular, la matriz \(J^{-1}\) no existe y el método falla. Si hay varias raíces, el punto inicial determina hacia cuál se mueve.
-
-### Ejemplo 3: comparar criterios de parada en Newton
-
-En la Actividad 9 se usó el sistema:
+En forma \(F(x,y)=0\):
 
 $$
-\begin{cases}
--x^2+x+0.75-y=0,\\
-x^2-5xy-y=0.
-\end{cases}
+f_1(x,y)=x^2+y^2-4,
+\qquad
+f_2(x,y)=x^2-y-1.
 $$
 
-El mismo método puede detenerse por error máximo, error euclidiano, residuo o criterio combinado.
+```mermaid
+flowchart LR
+    A["numpy<br/>mallas y arreglos"] --> B["LNL-Solver<br/>LNL_Solver.py"]
+    B --> C["matplotlib<br/>curvas e historial"]
+```
+
+### Paso 1: importar el módulo y las librerías
 
 ```python
-criteria9 = [
-    ['a) Max absoluto', 'max_absolute_error', 1e-6],
-    ['b) Euclidiano', 'euclidean_error', 1e-6],
-    ['c) Residuo', 'residue', 1e-8],
-    ['d) Combinado', 'combined', None]
+import numpy as np
+import matplotlib.pyplot as plt
+from LNL_Solver import *
+```
+
+> **Importación correcta.** El import correcto es `from LNL_Solver import *`. No se escribe la extensión `.py` dentro del import. El nombre visual del proyecto puede llevar guion, pero el módulo de Python usa guion bajo.
+
+### Paso 2: definir \(F(x,y)\) y el Jacobiano
+
+```python
+functions = [
+    lambda x, y: x**2 + y**2 - 4,
+    lambda x, y: x**2 - y - 1
+]
+
+jacobian = [
+    [lambda x, y: 2*x, lambda x, y: 2*y],
+    [lambda x, y: 2*x, lambda x, y: -1]
 ]
 ```
 
-| Criterio | Tolerancia | Iter. | \(x\) | \(y\) |
-|---|---|---:|---:|---:|
-| Max absoluto | \(10^{-6}\) | 5 | 1.372065 | 0.239502 |
-| Euclidiano | \(10^{-6}\) | 5 | 1.372065 | 0.239502 |
-| Residuo | \(10^{-8}\) | 5 | 1.372065 | 0.239502 |
-| Combinado | \(10^{-6}\) y \(10^{-8}\) | 5 | 1.372065 | 0.239502 |
+Estas funciones sirven tanto para resolver como para graficar porque usan operaciones compatibles con `numpy`. Pueden recibir números individuales o arreglos creados con `np.meshgrid`.
 
-> **Por qué todos dieron la misma iteración.** En ese ejemplo, en la iteración 4 todavía no se cumplía ninguno de los criterios y en la iteración 5 se cumplían todos. Por eso la solución coincide; lo que cambia es la magnitud que se reporta como error final.
-
-### Ejemplo 4: diagrama dinámico de Newton-Raphson
-
-En la Actividad 12 se probó una malla de puntos iniciales para el sistema de la Actividad 6. Cada punto de la malla se colorea según la raíz a la que converge.
+### Paso 3: resolver desde un punto inicial
 
 ```python
-for point in points:
-    try:
-        system = NonLinearSystem(non_linear_functions, point)
-        solution, iterations, error = system.solved_by_newton_raphson(
-            jacobian_functions,
-            tol=1e-10
-        )
-        # Clasificar la raíz encontrada
-    except np.linalg.LinAlgError:
-        # Punto donde el Jacobiano no fue invertible
-        pass
+initial_point = [1, 1]
+system = NonLinearSystem(functions, initial_point)
+
+solution, iterations, residue = system.solved_by_newton_raphson(
+    jacobian,
+    stop_criteria='residue',
+    tol=1e-8,
+    max_iteration=30
+)
+
+print(solution)
+print(iterations)
+print(f"Residuo final = {residue:.3e}")
 ```
 
-![Actividad 12: regiones de atracción de Newton-Raphson](figures_practica_3/cell_34_output_00.png)
+Salida esperada:
 
-> **Lectura gráfica.** Una región grande de un color significa que muchos puntos iniciales llegan a la misma raíz. Las fronteras entre colores son zonas sensibles: pequeños cambios en el punto inicial pueden llevar a otra solución o a problemas de convergencia.
+```text
+[1.517490 1.302776]
+4
+Residuo final = 3.166e-10
+```
+
+El punto \((1.517490,\ 1.302776)\) está en la intersección de la circunferencia y la parábola. El residuo pequeño confirma que \(F(x,y)\) está muy cerca de cero.
+
+### Paso 4: probar varios puntos iniciales
+
+```python
+initial_points = [
+    [1, 1],
+    [-1, 1],
+    [2, 0],
+    [-0.2, 0.2],
+    [0, 2]
+]
+
+results = []
+
+for point in initial_points:
+    try:
+        system = NonLinearSystem(functions, point)
+        solution, iterations, residue = system.solved_by_newton_raphson(
+            jacobian,
+            stop_criteria='residue',
+            tol=1e-8,
+            max_iteration=30
+        )
+        results.append([point, solution, iterations, residue])
+    except np.linalg.LinAlgError:
+        results.append([point, 'Jacobiano singular', None, None])
+```
+
+| Punto inicial | Solución | Iter. | Residuo |
+|---|---|---:|---:|
+| `[1,1]` | `(1.517490, 1.302776)` | 4 | \(3.166\times10^{-10}\) |
+| `[-1,1]` | `(-1.517490, 1.302776)` | 4 | \(3.166\times10^{-10}\) |
+| `[2,0]` | `(1.517490, 1.302776)` | 6 | \(2.809\times10^{-15}\) |
+| `[-0.2,0.2]` | `(-1.517490, 1.302776)` | 7 | \(3.225\times10^{-10}\) |
+| `[0,2]` | Jacobiano singular | -- | -- |
+
+> **Jacobiano singular.** Newton-Raphson necesita invertir \(J(x,y)\). Si el punto inicial produce un Jacobiano no invertible, el paso \(J^{-1}F\) no existe. En ese caso, se prueba otro punto inicial o se revisa la formulación del sistema.
+
+### Paso 5: graficar las curvas y las trayectorias
+
+```python
+x = np.linspace(-2.5, 2.5, 500)
+y = np.linspace(-2.5, 2.5, 500)
+X, Y = np.meshgrid(x, y)
+
+plt.contour(X, Y, functions[0](X, Y), levels=[0])
+plt.contour(X, Y, functions[1](X, Y), levels=[0])
+plt.xlabel('x')
+plt.ylabel('y')
+plt.axis('equal')
+plt.grid(True)
+plt.show()
+```
+
+Para dibujar las trayectorias de Newton, se usa el historial:
+
+```python
+path = np.vstack([
+    np.array(initial_point),
+    *[row['solution'] for row in system.history]
+])
+
+plt.plot(path[:, 0], path[:, 1], '--o')
+```
+
+![Curvas del sistema, puntos iniciales y trayectorias](figures_whsolver_guide/newton_paths.png)
+
+### Paso 6: usar `history` para estudiar convergencia
+
+Después de ejecutar el método, `system.history` contiene un diccionario por iteración:
+
+```python
+history = system.history
+
+for row in history:
+    print(
+        row['iteration'],
+        row['solution'],
+        row['absolute_error'],
+        row['residue']
+    )
+```
+
+También se puede convertir en tabla:
+
+```python
+import pandas as pd
+
+history_table = pd.DataFrame(system.history)
+history_table[['iteration', 'absolute_error', 'relative_error', 'residue']]
+```
+
+Y graficar el comportamiento de los errores:
+
+```python
+iterations = [row['iteration'] for row in system.history]
+absolute_errors = [row['absolute_error'] for row in system.history]
+relative_errors = [row['relative_error'] for row in system.history]
+residues = [row['residue'] for row in system.history]
+
+plt.semilogy(iterations, absolute_errors, marker='o', label='Error absoluto')
+plt.semilogy(iterations, relative_errors, marker='s', label='Error relativo')
+plt.semilogy(iterations, residues, marker='^', label='Residuo')
+plt.xlabel('Iteración')
+plt.ylabel('Magnitud')
+plt.grid(True, which='both')
+plt.legend()
+plt.show()
+```
+
+![Historial de errores y residuo](figures_whsolver_guide/newton_history.png)
+
+La escala logarítmica permite ver caídas muy grandes en pocas iteraciones. Si el residuo baja rápidamente, el punto calculado satisface cada vez mejor el sistema original.
+
+### Paso 7: mapa de convergencia por punto inicial
+
+Un uso más avanzado combina `numpy`, `matplotlib` y el solver: generar muchos puntos iniciales y colorearlos según la raíz a la que llegan.
+
+```python
+x0 = np.linspace(-2, 2, 85)
+y0 = np.linspace(-2, 2, 85)
+X0, Y0 = np.meshgrid(x0, y0)
+points = np.stack((X0, Y0), axis=-1).reshape(-1, 2)
+
+roots = []
+root_number = []
+
+for point in points:
+    try:
+        system = NonLinearSystem(functions, point)
+        solution, iterations, residue = system.solved_by_newton_raphson(
+            jacobian,
+            stop_criteria='residue',
+            tol=1e-7,
+            max_iteration=18
+        )
+
+        # Clasificar la solución encontrada.
+        # Si el residuo no es pequeño, marcar como no convergente.
+
+    except np.linalg.LinAlgError:
+        root_number.append(-1)
+```
+
+![Mapa de convergencia por punto inicial](figures_whsolver_guide/newton_basins.png)
+
+> **Qué enseña el mapa.** Newton-Raphson es local: el punto inicial importa. Una zona verde y una zona violeta indican regiones que convergen a raíces distintas. Las marcas negras señalan puntos donde el método no converge con la tolerancia o el número máximo de iteraciones elegidos.
 
 ---
 
@@ -849,7 +939,7 @@ for point in points:
 
 ```mermaid
 flowchart TB
-    A["1. LNL-Solver.py está en la carpeta correcta"] --> B["2. Importaste con<br/>from LNL-Solver import *"]
+    A["1. LNL_Solver.py está en la carpeta correcta"] --> B["2. Importaste con<br/>from LNL_Solver import *"]
     B --> C["3. Definiste A,b,x0<br/>o F,J,p0"]
     B --> D["4. Elegiste método<br/>y criterio de parada"]
     E["6. Revisaste convergencia<br/>o residuo"] --> D
@@ -864,9 +954,8 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    A["Importar<br/>from LNL-Solver import *"] --> B["Elegir<br/>lineal o no lineal"]
+    A["Importar<br/>from LNL_Solver import *"] --> B["Elegir<br/>lineal o no lineal"]
     B --> C["Construir<br/>objeto del sistema"]
     C --> D["Resolver<br/>con método y criterio"]
     D --> E["Presentar<br/>solución, iteraciones, error"]
 ```
-
