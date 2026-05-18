@@ -1,12 +1,12 @@
-# LNL-Solver
-This is LNL-Solver a tool to solve Linear and Non-Linear System using iterative standard methods
-
 ---
 title: "Guía gráfica del Willmers' Solver"
 author: "Willmers Isaías Hernández Cornielle"
 course: "Análisis Numérico"
 lang: es
 ---
+
+# LNL-Solver
+This is LNL-Solver a tool to solve Linear and Non-Linear System using iterative standard methods
 
 # Guía gráfica del Willmers' Solver
 
